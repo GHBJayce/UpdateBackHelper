@@ -4,7 +4,7 @@
 
 
 # config.json说明
-```json
+```
 {
     "git": {
         "author": "GHBJayce", // 你在项目中的名称
@@ -41,3 +41,5 @@ python UpdateBackupHelper.py
 方式二
 
 直接运行`UpdateBackHelper.exe`
+
+[下载exe](https://github.com/GHBJayce/python_tool/releases/download/1.0.0/UpdateBackupHelper.exe)
