@@ -1,0 +1,20 @@
+{
+    "git": {
+        "author": "",
+        "last_commit_num": "5"
+    },
+    "local": {
+        "project_path": "",
+        "group": {
+            "local_path": "",
+            "dir_list": ["backup", "new", "upload"]
+        }
+    },
+    "server": {
+        "ip": "",
+        "port": 22,
+        "username": "",
+        "password": "",
+        "project_path": ""
+    }
+}
