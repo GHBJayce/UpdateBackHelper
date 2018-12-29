@@ -4,7 +4,7 @@
 
 
 # config.json说明
-```json
+```
 {
     "git": {
         "author": "GHBJayce", // 你在项目中的名称
