@@ -5,13 +5,28 @@ import os
 import shutil
 import datetime
 import paramiko
+import sys
 
-def loadConfig():
-    file = open('./config.json', encoding='utf-8')
+if len(sys.argv) < 2:
+    print('请传入json配置文件')
+    quit()
+
+config_json_file_path = sys.argv[1]
+
+if not config_json_file_path.lower().endswith('json'):
+    print('请传入正确的json文件')
+    quit()
+
+if not os.path.exists(config_json_file_path):
+    print('无效路径，配置文件不存在')
+    quit()
+
+def loadConfig(file_path):
+    file = open(file_path, encoding='utf-8')
 
     return json.load(file)
 
-config = loadConfig()
+config = loadConfig(config_json_file_path)
 
 repo = Repo(config['local']['project_path'])
 #heads = repo.heads
@@ -104,11 +119,13 @@ for v in final_file_list:
     origin_file = local_project_path + v
     to_file = local_new_dir_path + v
 
-    create_directory_path(os.path.dirname(to_file))
+    # 2019-1-15 若commit中有新增、删除文件
+    if os.path.exists(origin_file) is True:
+        create_directory_path(os.path.dirname(to_file))
 
-    shutil.copy(origin_file, to_file)
-    print("\033[1;36m%s\033[0m 到 \033[1;32m%s\033[0m \n拷贝成功" %(origin_file, to_file))
-    # print("\n", '拷贝成功', origin_file, '到', to_file)
+        shutil.copy(origin_file, to_file)
+        print("\033[1;36m%s\033[0m 到 \033[1;32m%s\033[0m \n拷贝成功" %(origin_file, to_file))
+        # print("\n", '拷贝成功', origin_file, '到', to_file)
 
 
 print("\n\n正在拷贝服务器备份到backup目录")
@@ -117,10 +134,14 @@ for v in final_file_list:
     origin_file = server_project_path + v
     to_file = local_backup_dir_path + v
 
-    create_directory_path(os.path.dirname(to_file))
+    # 2019-1-15 若commit中有新增、删除文件，服务器不存在文件会出现错误，这里捕获这个错误反馈给用户，并让程序走下去
+    try:
+        create_directory_path(os.path.dirname(to_file))
 
-    sftp.get(origin_file, to_file)
-    print("\033[1;35m%s\033[0m 到 \033[1;32m%s\033[0m \n拷贝成功" %(origin_file, to_file))
+        sftp.get(origin_file, to_file)
+        print("\033[1;35m%s\033[0m 到 \033[1;32m%s\033[0m \n拷贝成功" %(origin_file, to_file))
+    except Exception as e:
+        print('该文件可能是删除或新增的文件，所以无法拷贝；错误内容：', e)
 
 
 print("\n\n再拷一份服务器备份到upload目录")
@@ -129,7 +150,11 @@ for v in final_file_list:
     origin_file = server_project_path + v
     to_file = local_upload_dir_path + v
 
-    create_directory_path(os.path.dirname(to_file))
+    # 2019-1-15 若commit中有新增、删除文件，服务器不存在文件会出现错误，这里捕获这个错误反馈给用户，并让程序走下去
+    try:
+        create_directory_path(os.path.dirname(to_file))
 
-    sftp.get(origin_file, to_file)
-    print("\033[1;34m%s\033[0m 到 \033[1;32m%s\033[0m \n拷贝成功" %(origin_file, to_file))
+        sftp.get(origin_file, to_file)
+        print("\033[1;34m%s\033[0m 到 \033[1;32m%s\033[0m \n拷贝成功" %(origin_file, to_file))
+    except Exception as e:
+        print('该文件可能是删除或新增的文件，所以无法拷贝；错误内容：', e)
