@@ -35,7 +35,7 @@ UpdateBackHelper.exe D:\config.json
 
 
 ## 配置文件说明
-```json
+```
 {
     "git": {
         "author": "GHBJayce", // 你在项目中的名称
