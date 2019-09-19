@@ -14,7 +14,7 @@
 命令行工具中执行
 
 ```shell
-py UpdateBackupHelper.py D:\config.json
+py UpdateBackupHelper.py -c D:\config.json
 ```
 
 
@@ -30,7 +30,7 @@ py UpdateBackupHelper.py D:\config.json
 命令行工具中执行，进入程序所在目录下
 
 ```shell
-UpdateBackHelper.exe D:\config.json
+UpdateBackHelper.exe -c D:\config.json
 ```
 
 
@@ -59,3 +59,7 @@ UpdateBackHelper.exe D:\config.json
     }
 }
 ```
+
+## CHANGELOG
+
+[CHANGELOG](./CHANGELOG.md)

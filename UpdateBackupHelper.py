@@ -5,13 +5,19 @@ import os
 import shutil
 import datetime
 import paramiko
-import sys
+import argparse
 
-if len(sys.argv) < 2:
+parser = argparse.ArgumentParser()
+parser.add_argument('-c', '--config', help='Configuration file path. 传入配置文件路径', type=str, metavar='')
+parser.add_argument('-q', '--quantity', help='Last commit quantity for git. 最后git提交的次数', type=str, metavar='')
+parser.add_argument('-a', '--author', help='Git commit author. git提交的作者', type=str, metavar='')
+args = parser.parse_args()
+
+if args.config == '' or args.config == None:
     print('请传入json配置文件')
     quit()
 
-config_json_file_path = sys.argv[1]
+config_json_file_path = args.config
 
 if not config_json_file_path.lower().endswith('json'):
     print('请传入正确的json文件')
@@ -27,6 +33,24 @@ def loadConfig(file_path):
     return json.load(file)
 
 config = loadConfig(config_json_file_path)
+
+if config['local']['project_path'] == '' or config['local']['project_path'][-1] != '/':
+    print('请检查配置文件中，确保 local -> project_path 配置项不为空、以及最后一个字符结尾必须是/')
+    quit()
+
+if config['local']['group']['local_path'] == '' or config['local']['group']['local_path'][-1] != '/':
+    print('请检查配置文件中，确保 local -> local_path 配置项不为空、以及最后一个字符结尾必须是/')
+    quit()
+
+if config['server']['project_path'] == '' or config['server']['project_path'][-1] != '/':
+    print('请检查配置文件中，确保 server -> project_path 配置项不为空、以及最后一个字符结尾必须是/')
+    quit()
+
+if args.quantity != None and args.quantity != '':
+    config['git']['last_commit_num'] = args.quantity
+
+if args.author != None and args.author != '':
+    config['git']['author'] = args.author
 
 repo = Repo(config['local']['project_path'])
 #heads = repo.heads

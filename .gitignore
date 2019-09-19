@@ -1,7 +1,7 @@
 .vscode
 .idea
 __pycache__
-config.json
+*.json
 *.spec
 /build
 /dist
