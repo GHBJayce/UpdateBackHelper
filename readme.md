@@ -1,41 +1,26 @@
 # UpdateBackupHelper
 
-更新备份助手，在你要对服务器项目更新之前，自动帮你把最新文件和备份文件拷贝到指定目录，让你可以直接开始差异对比、合并差异的工作。节省时间
+更新备份助手，在你要对服务器的项目进行更新时，帮你把git commit中的最新文件、服务器项目的备份文件拷贝到本地指定目录，让你可以直接开始差异对比、合并差异的工作，最后上传更新到服务器。
 
 ## 使用
-
-调用说明：
-
-程序 json配置文件的路径
-
-
 ### 方式一
-
-命令行工具中执行
-
 ```shell
+# 安装依赖
+pip3 install gitpython
+pip3 install paramiko
+# 调用
 py UpdateBackupHelper.py -c D:\config.json
 ```
 
 
 ### 方式二
-
-直接运行`UpdateBackHelper.exe`
-
-[下载exe](https://github.com/GHBJayce/UpdateBackHelper/releases)
-
-
-### 方式三
-
-命令行工具中执行，进入程序所在目录下
-
+直接运行[UpdateBackHelper.exe](https://github.com/GHBJayce/UpdateBackHelper/releases)
 ```shell
 UpdateBackHelper.exe -c D:\config.json
 ```
 
-
 ## 配置文件说明
-```
+```jsonc
 {
     "git": {
         "author": "GHBJayce", // 你在项目中的名称
